@@ -1,25 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "linked_list.h"
 
-
-typedef struct Node {
-    struct Node* next;
-    int data;
-    int index;
-} Node;
-
-typedef struct LinkedList {
-    Node* head;
-    int length;
-} LinkedList;
-
-LinkedList new_linked_list(){
+LinkedList* new_linked_list(){
     LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
     if(list == NULL)
         printf("Memory allocation failed.");
     list->head = NULL;
     list->length = 0;
-    return *list;
+    return list;
 }
 
 void add_node(Node* node, Node* new_node, int index){
@@ -70,6 +59,10 @@ int get(LinkedList list, int index){
 
 void print_linked_list(LinkedList list){
     printf("{");
+    if(list.length == 0){
+        printf("}\n");
+        return;
+    }
     Node current = *list.head;
     while(current.next != NULL){
         printf("%d, ", current.data);
@@ -77,17 +70,4 @@ void print_linked_list(LinkedList list){
     }
     printf("%d}\n", current.data);
 
-}
-
-int main(){
-
-    LinkedList list = new_linked_list();
-    //append(&list, 5);
-    //append(&list, 7);
-    //append(&list, -2);
-
-    print_linked_list(list);
-    printf("%d", get(list, 0));
-
-    return 0;
 }
