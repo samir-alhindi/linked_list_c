@@ -4,6 +4,24 @@
 
 int main(){
 
+    LinkedList* list = new_linked_list();
+
+    append(list, 5);
+    append(list, 10);
+    append(list, 15);
+
+    set(list, 0, -6);
+    set(list, 1, -7);
+    set(list, -1, -8);
+    
+    print_linked_list(list);
+
+    free_linked_list(list);
+
+    return 0;
+}
+
+void grades_average(){
     int count;
     printf("How many grades will you enter: ");
     scanf("%d", &count);
@@ -28,7 +46,4 @@ int main(){
     printf("\nThe average is: %.2f", average);
     
     free_linked_list(list);
-    
-
-    return 0;
 }

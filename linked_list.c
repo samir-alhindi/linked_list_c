@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "linked_list.h"
 
 LinkedList* new_linked_list(){
@@ -44,20 +45,42 @@ void append(LinkedList* list, int item){
 }
 
 int get(LinkedList* list, int index){
-    if(index >= list->length){
-        printf("Error: index %d is out of bounds for LinkedList of size %d", index, list->length);
-        exit(1);
-    }
+    index = check_valid_index(list, index);
 
     Node cur = *list->head;
     while(cur.index != index)
         cur = *cur.next;
     return cur.data;
 
+}
+
+void set(LinkedList* list, int at, int item){
+    int index = check_valid_index(list, at);
+
+    Node* cur = list->head;
+    while(cur->index != index)
+        cur = cur->next;
     
+    cur->data = item;
+
+}
+
+int check_valid_index(LinkedList* list, int index){
+
+    // Negative index:
+    if(index < 0)
+        index = list->length + index;
+    
+    if(index >= list->length || index < 0){
+        printf("Error: index %d is out of bounds for LinkedList of size %d\n", index, list->length);
+        exit(1);
+    }
+    
+    return index;
 }
 
 void print_linked_list(LinkedList* list){
+    
     printf("{");
     if(list->length == 0){
         printf("}\n");
