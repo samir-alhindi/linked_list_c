@@ -12,5 +12,6 @@ typedef struct LinkedList {
 LinkedList* new_linked_list();
 void add_node(Node* node, Node* new_node, int index);
 void append(LinkedList* list, int item);
-int get(LinkedList list, int index);
-void print_linked_list(LinkedList list);
+int get(LinkedList* list, int index);
+void print_linked_list(LinkedList* list);
+void free_linked_list(LinkedList* list);

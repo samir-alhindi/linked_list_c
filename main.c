@@ -4,15 +4,31 @@
 
 int main(){
 
+    int count;
+    printf("How many grades will you enter: ");
+    scanf("%d", &count);
+
     LinkedList* list = new_linked_list();
-    append(&list, 5);
-    append(&list, 7);
-    append(&list, -2);
 
-    print_linked_list(*list);
-    printf("%d", get(*list, 0));
+    for(int i = 0; i < count; i++){
+        int num;
+        printf("\nPlease enter grade #%d: ", i + 1);
+        scanf("%d", &num);
+        append(list, num);
+    }
 
-    free(list);
+    printf("\nYou entered: ");
+    int sum = 0;
+    for(int i = 0; i < list->length; i++){
+        printf("\n#%d- %d", i + 1, get(list, i));
+        sum += get(list, i);
+    }
+    
+    float average = (float) sum / count;
+    printf("\nThe average is: %.2f", average);
+    
+    free_linked_list(list);
+    
 
     return 0;
 }

@@ -43,13 +43,13 @@ void append(LinkedList* list, int item){
 
 }
 
-int get(LinkedList list, int index){
-    if(index >= list.length){
-        printf("Error: index %d is out of bounds for LinkedList of size %d", index, list.length);
+int get(LinkedList* list, int index){
+    if(index >= list->length){
+        printf("Error: index %d is out of bounds for LinkedList of size %d", index, list->length);
         exit(1);
     }
 
-    Node cur = *list.head;
+    Node cur = *list->head;
     while(cur.index != index)
         cur = *cur.next;
     return cur.data;
@@ -57,17 +57,29 @@ int get(LinkedList list, int index){
     
 }
 
-void print_linked_list(LinkedList list){
+void print_linked_list(LinkedList* list){
     printf("{");
-    if(list.length == 0){
+    if(list->length == 0){
         printf("}\n");
         return;
     }
-    Node current = *list.head;
+    Node current = *list->head;
     while(current.next != NULL){
         printf("%d, ", current.data);
         current = *current.next;
     }
     printf("%d}\n", current.data);
+
+}
+
+void free_linked_list(LinkedList* list){
+
+    Node* current = list->head;
+    while(current->next != NULL){
+        Node* node_to_be_freed = current;
+        free(node_to_be_freed);
+        current = current->next;
+    }
+    free(list);
 
 }
