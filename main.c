@@ -2,19 +2,28 @@
 #include <stdlib.h>
 #include "linked_list.h"
 
+void grades_average();
+
 int main(){
+
+    grades_average();
 
     LinkedList* list = new_linked_list();
 
-    append(list, 5);
-    append(list, 10);
-    append(list, 15);
-
-    set(list, 0, -6);
-    set(list, 1, -7);
-    set(list, -1, -8);
+    append(list, 3);
+    append(list, 2);
+    append(list, 1);
+    append(list, -1);
+    append(list, -2);
     
+    
+    sort(list);
+
     print_linked_list(list);
+    int Tail = pop(list);
+
+    print_linked_list(list);
+    printf("Tail: %d", Tail);
 
     free_linked_list(list);
 

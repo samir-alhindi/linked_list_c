@@ -12,12 +12,12 @@ LinkedList* new_linked_list(){
     return list;
 }
 
-void add_node(Node* node, Node* new_node, int index){
+void _add_node(Node* node, Node* new_node, int index){
     if(node->next == NULL){
         node->next = new_node;
         new_node->index = index;
     } 
-    else add_node(node->next, new_node, index + 1);
+    else _add_node(node->next, new_node, index + 1);
 }
 
 void append(LinkedList* list, int item){
@@ -39,7 +39,7 @@ void append(LinkedList* list, int item){
             printf("Memory allocation failed.");
         p_node->data = item;
         p_node->next = NULL;
-        add_node(list->head, p_node, 1);
+        _add_node(list->head, p_node, 1);
     }
 
 }
@@ -65,6 +65,18 @@ void set(LinkedList* list, int at, int item){
 
 }
 
+void sort(LinkedList* list){
+    for(int i = 0; i < list->length; i++){
+        for(int j = 0; j < list->length - 1; j++){
+            if( get(list, j) > get(list, j + 1) ){
+                int temp = get(list, j);
+                set(list, j, get(list, j + 1) );
+                set(list, j + 1, temp);
+            }
+        }
+    }
+}
+
 int check_valid_index(LinkedList* list, int index){
 
     // Negative index:
@@ -77,6 +89,36 @@ int check_valid_index(LinkedList* list, int index){
     }
     
     return index;
+}
+
+int pop(LinkedList* list){
+
+    if(list->length == 0){
+        printf("Can't pop from an empty list\n");
+        exit(1);
+    }
+
+    else if(list->length == 1){
+        list->length--;
+        int value = list->head->data;
+        list->head = NULL;
+        free(list->head);
+        return value;
+    }
+
+    // Get node right before tail of linked list:
+    Node* current = list->head;
+    while(current->index < (list->length - 2) )
+        current = current->next;
+    
+    int value = current->next->data;
+    
+    // Free the tail:
+    free(current->next);
+    current->next = NULL;
+    list->length--;
+    return value;
+
 }
 
 void print_linked_list(LinkedList* list){
@@ -98,11 +140,12 @@ void print_linked_list(LinkedList* list){
 void free_linked_list(LinkedList* list){
 
     Node* current = list->head;
-    while(current->next != NULL){
+    while(current->index < list->length){
         Node* node_to_be_freed = current;
         free(node_to_be_freed);
         current = current->next;
     }
+    
     free(list);
 
 }
